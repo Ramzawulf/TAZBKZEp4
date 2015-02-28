@@ -2,11 +2,11 @@ fileFormatVersion: 2
 guid: 700388bd838c548d39fc747d71eda446
 TextureImporter:
   fileIDToRecycleName:
-    21300000: temp_spriteSheet_0
-    21300002: temp_spriteSheet_1
-    21300004: temp_spriteSheet_2
-    21300006: temp_spriteSheet_3
-    21300008: temp_spriteSheet_4
+    21300000: Zombie
+    21300002: Ground
+    21300004: Farmer
+    21300006: Wall
+    21300008: Follower
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -48,7 +48,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: temp_spriteSheet_0
+    - name: Zombie
       rect:
         serializedVersion: 2
         x: 15
@@ -56,9 +56,9 @@ TextureImporter:
         width: 40
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: temp_spriteSheet_1
+    - name: Ground
       rect:
         serializedVersion: 2
         x: 65
@@ -66,9 +66,9 @@ TextureImporter:
         width: 40
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: temp_spriteSheet_2
+    - name: Farmer
       rect:
         serializedVersion: 2
         x: 115
@@ -76,9 +76,9 @@ TextureImporter:
         width: 40
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: temp_spriteSheet_3
+    - name: Wall
       rect:
         serializedVersion: 2
         x: 15
@@ -86,9 +86,9 @@ TextureImporter:
         width: 40
         height: 40
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: temp_spriteSheet_4
+    - name: Follower
       rect:
         serializedVersion: 2
         x: 65

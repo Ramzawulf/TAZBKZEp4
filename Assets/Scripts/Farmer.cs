@@ -37,7 +37,6 @@ public class Farmer : MonoBehaviour
 									transform.rotation = Quaternion.identity;
 						}
 						lastMove = Time.time;
-						
 			}
 
 			void OnTriggerEnter (Collider other)

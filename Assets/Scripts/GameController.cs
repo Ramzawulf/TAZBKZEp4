@@ -8,7 +8,8 @@ public class GameController : MonoBehaviour
 			public int height = 19;
 			public GameObject floorTile;
 			public GameObject wallTile;
-	
+			public Vector2 farmerSpawnPosition = Vector2.zero;
+
 			void Awake ()
 			{
 						PaintMyGridYall ();
@@ -23,7 +24,7 @@ public class GameController : MonoBehaviour
 			{
 						for (int x = 0; x < width; x++) {
 									for (int y = 0; y < height; y++) {
-												GameObject tile = Instantiate (floorTile, new Vector2 (x - (width / 2), y - (height / 2)), Quaternion.identity) as GameObject;
+												Instantiate (floorTile, new Vector2 (x - (width / 2), y - (height / 2)), Quaternion.identity);
 									}
 						}
 						CreateWall ();

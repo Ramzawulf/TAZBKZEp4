@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
 	{
 		PaintMyGridYall ();
 		SpawnFarmer ();
+		SpawnBull ();
 	}
 	
 	void Update ()
@@ -51,6 +52,11 @@ public class GameController : MonoBehaviour
 	private void SpawnFarmer ()
 	{
 		Instantiate (Farmer, farmerSpawnPosition, Quaternion.identity);
+	}
+
+	private void SpawnBull ()
+	{
+		Instantiate (Bull, bullSpawnPosition, Quaternion.identity);
 	}
 	
 }

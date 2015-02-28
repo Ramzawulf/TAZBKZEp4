@@ -5,9 +5,18 @@ public class Farmer : MonoBehaviour
 {
 
 	//Moves per second
+	public static Farmer control;
 	public float movementSpeed = 1;
 	private float lastMove = 0;
 
+	void Awake ()
+	{
+		if (control == null) {
+			control = this;
+		} else if (control != this) {
+			Destroy (gameObject);
+		}
+	}
 
 	void Start ()
 	{

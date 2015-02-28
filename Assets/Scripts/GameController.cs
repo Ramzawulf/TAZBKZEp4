@@ -8,22 +8,32 @@ public class GameController : MonoBehaviour
 	public int height = 19;
 	public GameObject floorTile;
 	public GameObject wallTile;
+	//Farmer
 	public Vector2 farmerSpawnPosition = Vector2.zero;
 	public GameObject Farmer;
-
+	//Bull
 	public Vector2 bullSpawnPosition = new Vector2 (1, 1);
 	public GameObject Bull;
+	//Zombie
+	public Vector2[] zombieSpawnPosition;
+	public GameObject[] Zombies;
+	public float spawnSpeed = 0.5f;
+	private float lastZombieSpawn;
 
 	void Awake ()
 	{
 		PaintMyGridYall ();
 		SpawnFarmer ();
 		SpawnBull ();
+		lastZombieSpawn = Time.time;
 	}
 	
 	void Update ()
 	{
-		
+		if (Time.time >= (lastZombieSpawn + spawnSpeed)) {
+			SpawnZombie ();
+			lastZombieSpawn = Time.time;
+		}
 	}
 	
 	public void PaintMyGridYall ()
@@ -58,5 +68,11 @@ public class GameController : MonoBehaviour
 	{
 		Instantiate (Bull, bullSpawnPosition, Quaternion.identity);
 	}
-	
+
+	private void SpawnZombie ()
+	{
+		Instantiate (Zombies [Random.Range (0, Zombies.Length)], 
+		             zombieSpawnPosition [Random.Range (0, zombieSpawnPosition.Length)], 
+		             Quaternion.identity);
+	}
 }

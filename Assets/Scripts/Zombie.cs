@@ -13,7 +13,7 @@ public class Zombie : MonoBehaviour
 	void Start ()
 	{
 		lastMove = Time.time;
-		farmer = Farmer.control;
+		farmer = GameObject.FindGameObjectsWithTag ("Farmer").First ().GetComponent<Farmer> ();
 	}
 	
 	void Update ()

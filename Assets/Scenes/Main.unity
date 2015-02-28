@@ -193,6 +193,15 @@ MonoBehaviour:
   Farmer: {fileID: 116084, guid: 9fd610038807b4a298e46acd2a83b292, type: 2}
   bullSpawnPosition: {x: 1, y: 1}
   Bull: {fileID: 102464, guid: f9466500b294148fba4cec1d79f8db5a, type: 2}
+  zombieSpawnPosition:
+  - {x: 5, y: 6}
+  - {x: 1, y: 3}
+  - {x: -5, y: 0}
+  Zombies:
+  - {fileID: 165754, guid: a44fe0462701e0e40aec8ed8a97d9219, type: 2}
+  - {fileID: 165754, guid: a44fe0462701e0e40aec8ed8a97d9219, type: 2}
+  - {fileID: 165754, guid: a44fe0462701e0e40aec8ed8a97d9219, type: 2}
+  spawnSpeed: .5
 --- !u!4 &2135377800
 Transform:
   m_ObjectHideFlags: 0

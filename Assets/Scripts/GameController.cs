@@ -3,6 +3,7 @@ using System.Collections;
 
 public class GameController : MonoBehaviour
 {
+	public static GameController control;
 	
 	public int width = 19;
 	public int height = 19;
@@ -20,16 +21,34 @@ public class GameController : MonoBehaviour
 	public float spawnSpeed = 0.5f;
 	private float lastZombieSpawn;
 
+	//Controlling Variables
+	public bool isPaused = false;
+	public bool isGameOver = false;
+
+
 	void Awake ()
 	{
 		PaintMyGridYall ();
 		SpawnFarmer ();
 		SpawnBull ();
 		lastZombieSpawn = Time.time;
+
+		if (control == null) {
+			control = this;
+		} else if (control != this) {
+			Destroy (gameObject);
+		}
 	}
 	
 	void Update ()
 	{
+		if (Input.GetKeyDown (KeyCode.P)) {
+			isPaused = !isPaused;
+		}
+
+		if (isPaused || isGameOver) 
+			return;
+
 		if (Time.time >= (lastZombieSpawn + spawnSpeed)) {
 			SpawnZombie ();
 			lastZombieSpawn = Time.time;
@@ -74,5 +93,10 @@ public class GameController : MonoBehaviour
 		Instantiate (Zombies [Random.Range (0, Zombies.Length)], 
 		             zombieSpawnPosition [Random.Range (0, zombieSpawnPosition.Length)], 
 		             Quaternion.identity);
+	}
+
+	public void GameOver ()
+	{
+		isGameOver = true;
 	}
 }

@@ -16,6 +16,8 @@ public class Bull : MonoBehaviour
 	public float movementSpeed = 1;
 	public BullDirection direction;
 	private float lastMovement;
+
+	private bool amIDead = false;
 	
 	
 	void Start ()
@@ -26,6 +28,14 @@ public class Bull : MonoBehaviour
 	
 	void Update ()
 	{
+		if (amIDead) {
+			rigidbody2D.velocity = Vector2.zero;
+			rigidbody2D.angularVelocity = 0;
+			return;
+		}
+
+		if (GameController.control.isPaused) 
+			return;
 		Move ();
 	}
 	
@@ -73,12 +83,25 @@ public class Bull : MonoBehaviour
 		}
 	}
 
-	void OnTriggerEnter (Collider other)
+	void OnTriggerEnter2D (Collider2D other)
 	{
+		switch (other.tag) {
+		case"Enemy":
+			Destroy (other.gameObject);
+			break;
+		case "Wall":
+			KillMe ();
+			break;
+		}
 	}
 	
 	void OnCollisionEnter2D (Collision2D coll)
 	{
-		
+		KillMe ();
+	}
+
+	public void 	KillMe ()
+	{
+		amIDead = true;
 	}
 }

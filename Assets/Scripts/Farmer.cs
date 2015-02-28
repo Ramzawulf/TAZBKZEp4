@@ -7,7 +7,10 @@ public class Farmer : MonoBehaviour
 	//Moves per second
 	public static Farmer control;
 	public float movementSpeed = 1;
+	public int lifePoints = 1;
+
 	private float lastMove = 0;
+	private bool amIDead = false;
 
 	void Awake ()
 	{
@@ -25,6 +28,13 @@ public class Farmer : MonoBehaviour
 
 	void Update ()
 	{
+		if (amIDead) {
+			PlayDead ();
+			return;
+		}
+
+		if (GameController.control.isPaused) 
+			return;
 		Move ();
 	}
 
@@ -48,13 +58,30 @@ public class Farmer : MonoBehaviour
 		lastMove = Time.time;
 	}
 
-	void OnTriggerEnter (Collider other)
+	public void Damage (int damageDone = 1)
 	{
-						
+		lifePoints -= damageDone;
+		CheckIfAlive ();
 	}
 
-	void OnCollisionEnter2D (Collision2D coll)
+	private void CheckIfAlive ()
 	{
-						
+		if (lifePoints <= 0) {
+			GameController.control.GameOver ();
+			amIDead = true;
+		}
+	}
+
+	void KillMe ()
+	{
+		amIDead = true;
+		print ("Hilly killed!");
+	}
+
+	void PlayDead ()
+	{
+		rigidbody2D.velocity = Vector2.zero;
+		rigidbody2D.angularVelocity = 0;
+		transform.rotation = Quaternion.identity;
 	}
 }

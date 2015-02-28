@@ -18,6 +18,8 @@ public class Zombie : MonoBehaviour
 	
 	void Update ()
 	{
+		if (GameController.control.isPaused || GameController.control.isGameOver) 
+			return;
 		Move ();
 	}
 	
@@ -49,7 +51,11 @@ public class Zombie : MonoBehaviour
 	
 	void OnCollisionEnter2D (Collision2D coll)
 	{
-		print ("Choqué");
-		
+		if (coll.gameObject.tag == "Farmer") {
+			print ("I collided with a Hillbilly, Oh my!");	
+			Farmer.control.Damage (1);
+		}
+
 	}
+
 }

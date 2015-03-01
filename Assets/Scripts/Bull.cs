@@ -15,8 +15,12 @@ public class Bull : MonoBehaviour
 	//Moves per second
 	public float movementSpeed = 1;
 	public BullDirection direction;
+
 	private float lastMovement;
-	private Vector3 initialBullScale;
+	private Vector3 lastPosition;
+
+	public GameObject cow;
+	private Follower follower;
 
 	private bool amIDead = false;
 	
@@ -25,12 +29,12 @@ public class Bull : MonoBehaviour
 	{
 		direction = BullDirection.Up;
 		lastMovement = Time.time;
-		initialBullScale = gameObject.transform.localScale;
+		lastPosition = transform.position;
 	}
 	
 	void Update ()
 	{
-		if (amIDead) {
+		if (amIDead || GameController.control.isGameOver) {
 			rigidbody2D.velocity = Vector2.zero;
 			rigidbody2D.angularVelocity = 0;
 			return;
@@ -42,14 +46,13 @@ public class Bull : MonoBehaviour
 	}
 	
 	void Move ()
-	{
-		if (Time.time < (lastMovement + (1 / movementSpeed)))
-			return;
-					
+	{			
 		Vector2 targetPosition = transform.position;
 
 		SetDirection ();
 
+		if (Time.time < (lastMovement + (1 / movementSpeed)))
+			return;
 
 		switch (direction) {
 		case BullDirection.Up:
@@ -74,7 +77,11 @@ public class Bull : MonoBehaviour
 		}
 
 		lastMovement = Time.time;
+		lastPosition = transform.position;
 		rigidbody2D.MovePosition (targetPosition);
+		if (follower != null) {
+			follower.FollowMe (lastPosition);
+		} 
 	}
 
 	private void SetDirection ()
@@ -98,11 +105,37 @@ public class Bull : MonoBehaviour
 		switch (other.tag) {
 		case"Enemy":
 			Destroy (other.gameObject);
+			GameController.control.score++;
+			if (follower == null) {
+				GameObject c = Instantiate (cow, lastPosition, Quaternion.identity) as GameObject;
+				follower = c.GetComponent<Follower> ();
+				follower.leader = gameObject;
+			} else {
+				follower.SpawnCow ();
+			}
+
 			break;
 		case "Wall":
 			KillMe ();
 			break;
+		case "Cow":
+			KillMe ();
+			break;
 		}
+	}
+
+	private IEnumerable SpawnFollower ()
+	{
+		if (follower == null) {
+			Vector2 currentPosition = transform.position;
+			yield return new WaitForSeconds (0.3f);
+			GameObject c = Instantiate (cow, currentPosition, Quaternion.identity) as GameObject;
+			follower = c.GetComponent<Follower> ();
+		} else {
+			follower.SpawnCow ();
+			yield return null;
+		}
+
 	}
 	
 	void OnCollisionEnter2D (Collision2D coll)
@@ -112,6 +145,7 @@ public class Bull : MonoBehaviour
 
 	public void 	KillMe ()
 	{
+		GameController.control.GameOver ();
 		amIDead = true;
 	}
 }

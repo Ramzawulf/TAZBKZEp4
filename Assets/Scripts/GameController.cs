@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour
 {
@@ -18,28 +20,30 @@ public class GameController : MonoBehaviour
 	//Farmer
 	public Vector2 farmerSpawnPosition = Vector2.zero;
 	public GameObject Farmer;
+
 	//Bull
 	public Vector2 bullSpawnPosition = new Vector2 (1, 1);
 	public GameObject Bull;
 
 	//Zombie
-	public Transform zombieContainer;
-	public Vector2[] zombieSpawnPosition;
-	public GameObject[] Zombies;
-	public float spawnSpeed = 0.5f;
-	private float lastZombieSpawn;
+	public int numberOfSpawningPoints = 10;
+	public GameObject spawningPoint;
+	public Transform spawnPointContainer;
 
 	//Controlling Variables
 	public bool isPaused = false;
 	public bool isGameOver = false;
 
+	//Score Crap
+	public int score;
+	public Text scoreText;
 
 	void Awake ()
 	{
 		PaintMyGridYall ();
 		SpawnFarmer ();
 		SpawnBull ();
-		lastZombieSpawn = Time.time;
+		CreateSpawningPoints ();
 
 		if (control == null) {
 			control = this;
@@ -50,17 +54,14 @@ public class GameController : MonoBehaviour
 	
 	void Update ()
 	{
+		UpdateScore ();
+
 		if (Input.GetKeyDown (KeyCode.P)) {
 			isPaused = !isPaused;
 		}
 
 		if (isPaused || isGameOver) 
 			return;
-
-		if (Time.time >= (lastZombieSpawn + spawnSpeed)) {
-			SpawnZombie ();
-			lastZombieSpawn = Time.time;
-		}
 	}
 	
 	public void PaintMyGridYall ()
@@ -102,17 +103,40 @@ public class GameController : MonoBehaviour
 		Instantiate (Bull, bullSpawnPosition, Quaternion.identity);
 	}
 
-	private void SpawnZombie ()
+	private void CreateSpawningPoints ()
 	{
-		GameObject z = Instantiate (Zombies [Random.Range (0, Zombies.Length)], 
-		             zombieSpawnPosition [Random.Range (0, zombieSpawnPosition.Length)], 
-		             Quaternion.identity) as GameObject;
-		z.transform.SetParent (zombieContainer);
+		List<Vector2> usedPositions = new List<Vector2> ();
 
+		for (int i = 0; i < numberOfSpawningPoints; i++) {
+
+			Vector2 sPosition = new Vector2 ((int)Random.Range (-width / 2, width / 2), (int)Random.Range (-height / 2, height / 2));
+
+			while (usedPositions.Contains (sPosition)) {
+				sPosition = new Vector2 ((int)Random.Range (-width / 2, width / 2), (int)Random.Range (-height / 2, height / 2));
+			}
+			usedPositions.Add (sPosition);
+		}
+
+		foreach (Vector2 p in usedPositions) {
+			GameObject zsp = Instantiate (spawningPoint, p, Quaternion.identity) as GameObject;
+			zsp.transform.SetParent (spawnPointContainer);
+		}
+	}
+
+	private void UpdateScore ()
+	{
+		scoreText.text = "Score: " + score;
 	}
 
 	public void GameOver ()
 	{
 		isGameOver = true;
+		StartCoroutine (GoToGameOverScene ());
+	}
+
+	public IEnumerator GoToGameOverScene ()
+	{
+		yield return new WaitForSeconds (2);
+		Application.LoadLevel ("GameOver");
 	}
 }

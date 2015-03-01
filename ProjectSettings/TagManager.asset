@@ -7,6 +7,8 @@ TagManager:
   - Farmer
   - Enemy
   - Bull
+  - Cow
+  - SpawningPoint
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

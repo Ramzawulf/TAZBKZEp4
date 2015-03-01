@@ -70,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 4
   direction: 0
+  cow: {fileID: 184054, guid: c0fe29ce3b2804005a61052937736001, type: 2}
 --- !u!212 &21202464
 SpriteRenderer:
   m_ObjectHideFlags: 1

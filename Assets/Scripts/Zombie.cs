@@ -52,10 +52,16 @@ public class Zombie : MonoBehaviour
 	void OnCollisionEnter2D (Collision2D coll)
 	{
 		if (coll.gameObject.tag == "Farmer") {
-			print ("I collided with a Hillbilly, Oh my!");	
 			Farmer.control.Damage (1);
+
+		} else if (coll.gameObject.tag == "Enemy") {
+			rigidbody2D.velocity = Vector2.zero;
+			rigidbody2D.angularVelocity = 0;
+			transform.rotation = Quaternion.identity;
+
+			coll.gameObject.rigidbody2D.velocity = Vector2.zero;
+			coll.gameObject.rigidbody2D.angularVelocity = 0;
+			coll.gameObject.transform.rotation = Quaternion.identity;
 		}
-
 	}
-
 }

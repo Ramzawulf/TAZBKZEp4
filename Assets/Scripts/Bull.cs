@@ -16,6 +16,7 @@ public class Bull : MonoBehaviour
 	public float movementSpeed = 1;
 	public BullDirection direction;
 	private float lastMovement;
+	private Vector3 initialBullScale;
 
 	private bool amIDead = false;
 	
@@ -24,6 +25,7 @@ public class Bull : MonoBehaviour
 	{
 		direction = BullDirection.Up;
 		lastMovement = Time.time;
+		initialBullScale = gameObject.transform.localScale;
 	}
 	
 	void Update ()
@@ -48,18 +50,26 @@ public class Bull : MonoBehaviour
 
 		SetDirection ();
 
+
 		switch (direction) {
 		case BullDirection.Up:
 			targetPosition = new Vector2 (transform.position.x, transform.position.y + 1);
+			transform.rotation = Quaternion.identity;
 			break;
 		case BullDirection.Down:
 			targetPosition = new Vector2 (transform.position.x, transform.position.y - 1);
+			transform.rotation = Quaternion.identity;
+			transform.Rotate (new Vector3 (0, 0, 180));
 			break;
 		case BullDirection.Left:
 			targetPosition = new Vector2 (transform.position.x - 1, transform.position.y);
+			transform.rotation = Quaternion.identity;
+			transform.Rotate (new Vector3 (0, 0, 90));
 			break;
 		case BullDirection.Right:
 			targetPosition = new Vector2 (transform.position.x + 1, transform.position.y);
+			transform.rotation = Quaternion.identity;
+			transform.Rotate (new Vector3 (0, 0, 270));
 			break;
 		}
 
@@ -97,7 +107,7 @@ public class Bull : MonoBehaviour
 	
 	void OnCollisionEnter2D (Collision2D coll)
 	{
-		KillMe ();
+		//KillMe ();
 	}
 
 	public void 	KillMe ()
